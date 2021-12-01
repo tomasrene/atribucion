@@ -1,5 +1,11 @@
 def calcular_shapley(data):
+    '''
+    El input es una lista con una lista de recorridos a la conversion.
+    El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
+    '''
+    
     print("Proceso de calcular Shapley")
+    
     return data
 
 
