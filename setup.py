@@ -9,7 +9,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='atribucion',
-    version='1.1',
+    version='1.2',
     description='Libreria para correr modelos de atribucion para marketing',
     long_description=long_description,
     long_description_content_type="text/markdown",
