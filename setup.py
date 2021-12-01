@@ -26,5 +26,5 @@ setup(
         "Operating System :: OS Independent"
     ],
     packages=find_packages(include=['atribucion']),
-    install_requires=['pandas']
+    install_requires=['pandas','wheel']
 )
