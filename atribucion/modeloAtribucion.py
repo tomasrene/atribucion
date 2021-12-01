@@ -23,7 +23,6 @@ class Modelo():
             }
             print("Validados los parametros")
             data = formatear_markov(self.data, parametros)
-        
         else:
             data = self.data
 
@@ -45,7 +44,7 @@ class Modelo():
             data = self.data
 
         resultado = calcular_shapley(data)
-
+        print("RESULTADO: ",resultado)
         return resultado
 
     def heuristicos(self, ventana=30, touchpoints=8):
