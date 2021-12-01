@@ -1,1 +1,0 @@
-from atribucion.modeloAtribucion import Modelo
