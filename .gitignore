@@ -3,3 +3,6 @@ venv/
 utils/__pycache__/
 __pycache__/
 test.py
+atribucion.egg-info/
+build/
+dist/
