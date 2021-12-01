@@ -9,7 +9,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='atribucion',
-    version='1.4',
+    version='1.5',
     description='Libreria para correr modelos de atribucion para marketing',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -26,5 +26,5 @@ setup(
         "Operating System :: OS Independent"
     ],
     packages=find_packages(include=['atribucion']),
-    install_requires=['pandas','wheel']
+    install_requires=['pandas']
 )
