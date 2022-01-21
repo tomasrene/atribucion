@@ -3,7 +3,7 @@ from .shapley import formatear_shapley, calcular_shapley
 from .heuristicos import calcular_heuristicos
 
 class Modelo():
-    def __init__(self, data, formateada=False) -> None:
+    def __init__(self, data, formateada=False):
         self.data = data
         self.formateada = formateada
         
