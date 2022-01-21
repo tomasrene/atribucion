@@ -41,7 +41,7 @@ def formatear_shapley(data, parametros):
     for k,v in parametros.items():
         print("Parametros: ",k,v)
     
-    print("Proceso de formatear Markov")
+    print("Proceso de formatear Shapley")
     
     return data
 
