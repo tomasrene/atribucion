@@ -1,5 +1,3 @@
-def calcular_heuristicos(data):
+def calcular(data):
     
-    print("Proceso de calcular heuristicos")
-
     return data

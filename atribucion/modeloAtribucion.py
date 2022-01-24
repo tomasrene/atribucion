@@ -1,7 +1,4 @@
-from . import markov
-from . import shapley
-
-from .heuristicos import calcular_heuristicos
+from . import markov, shapley, heuristicos
 
 class Modelo():
     def __init__(self, data, formateada=False):
@@ -53,7 +50,7 @@ class Modelo():
         else:
             data = self.data
 
-        resultado = calcular_heuristicos(data)
+        resultado = heuristicos.calcular(data)
 
         return resultado
 
