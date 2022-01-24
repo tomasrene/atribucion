@@ -11,14 +11,14 @@ def formatear(data, parametros):
     return data
 
 def calcular(data):
-        
-    # pasar a data frame
-    data = pd.DataFrame(data)
-
+    '''
+    El input es un dataframe con los recorridos de cada usuario y si terminan en conversion.
+    El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
+    '''
     # calcular conversiones totales
     conversiones_totales = data.iloc[:,1].sum()
 
-    # obtener la matriz de transiciones de los canales
+    # obtener la matriz de transicion de los canales
     matriz = calcular_matriz_transicion(data)
 
     # obtener el diciconario del removal effect de cada canal
@@ -30,6 +30,11 @@ def calcular(data):
     return atribucion
 
 def calcular_matriz_transicion(data):
+    '''
+    Agregar el estado inicial (start) y los estados absorbentes (conversion), (null).
+    Calcula la matriz como la probabilidad de transicion entre dos estados.
+    Agrega las columnas necesarias para obtener una matriz cuadrada.
+    '''
     
     # agregar (start) al inicio de cada path
     data.apply(lambda x: x[0].insert(0,'(start)'), axis=1)
@@ -64,8 +69,8 @@ def calcular_matriz_transicion(data):
 
 def calcular_markov(data):
     '''
-    Toma una matriz de transiciones entre los canales (con null, start y conversion) y devuelve la tasa de
-    conversion partienda del estado start.
+    Toma una matriz de transiciones entre los canales (con null, start y conversion).
+    Devuelve la tasa de conversion partienda del estado start.
     '''
     # armar matriz de convergencia (columnas finales)
     removal_to_conv = data[['(null)','(conversion)']]
