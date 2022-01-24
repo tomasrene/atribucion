@@ -13,4 +13,5 @@ modelo = atribucion.Modelo(data)
 Después pedís que te calcule el modelo que quieras.
 ````
 resultado_markov = modelo.markov()
+resultado_shapley = modelo.shapley()
 ````
