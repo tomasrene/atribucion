@@ -1,14 +1,14 @@
 from . import markov, shapley, heuristicos
 
 class Modelo():
-    def __init__(self, data, formateada=False):
+    def __init__(self, data, formateada=True):
         self.data = data
         self.formateada = formateada
 
         return None
 
     def markov(self, orden=1, ventana=30, touchpoints=8, conversion=True):
-        
+
         if self.formateada == False:
             parametros = {
                 'orden' : orden,
