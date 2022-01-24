@@ -1,6 +1,15 @@
 from itertools import combinations, permutations
 from collections import Counter
 
+def formatear(data, parametros):
+
+    for k,v in parametros.items():
+        print("Parametros: ", k,v)
+    
+    print("Proceso de formatear Shapley")
+    
+    return data
+
 def calcular(data):
     '''
     El input es una lista con una lista de recorridos a la conversion.
@@ -35,15 +44,6 @@ def calcular(data):
     atribucion = {k:round(v*conversiones_totales,2) for k,v in shapley.items()}
 
     return atribucion
-
-def formatear(data, parametros):
-
-    for k,v in parametros.items():
-        print("Parametros: ", k,v)
-    
-    print("Proceso de formatear Shapley")
-    
-    return data
 
 def combinar(lista):
     '''

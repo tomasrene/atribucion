@@ -8,7 +8,7 @@ class Modelo():
         return None
 
     def markov(self, orden=1, ventana=30, touchpoints=8, conversion=True):
-
+        
         if self.formateada == False:
             parametros = {
                 'orden' : orden,
