@@ -1,13 +1,13 @@
 from itertools import combinations, permutations
 from collections import Counter
 
-def calcular_shapley(data):
+def calcular(data):
     '''
     El input es una lista con una lista de recorridos a la conversion.
     El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
     '''
-    
-    print("Proceso de calcular Shapley")
+    # convertir a lista
+    data = data.values.tolist()
 
     # CONVERSIONES TOTALES
     conversiones_totales = sum(list(map(lambda x: x[1], data)))
@@ -36,10 +36,10 @@ def calcular_shapley(data):
 
     return atribucion
 
-def formatear_shapley(data, parametros):
+def formatear(data, parametros):
 
     for k,v in parametros.items():
-        print("Parametros: ",k,v)
+        print("Parametros: ", k,v)
     
     print("Proceso de formatear Shapley")
     

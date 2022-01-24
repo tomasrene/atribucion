@@ -1,16 +1,14 @@
-from .markov import formatear_markov, calcular_markov
-from .shapley import formatear_shapley, calcular_shapley
+from . import markov
+from . import shapley
+
 from .heuristicos import calcular_heuristicos
 
 class Modelo():
     def __init__(self, data, formateada=False):
         self.data = data
         self.formateada = formateada
-        
-        print("Data: ", data)
-        print("Formateada: ", formateada)
 
-        pass
+        return None
 
     def markov(self, orden=1, ventana=30, touchpoints=8, conversion=True):
 
@@ -21,12 +19,11 @@ class Modelo():
                 'touchpoints' : touchpoints,
                 'conversion' : conversion
             }
-            print("Validados los parametros")
-            data = formatear_markov(self.data, parametros)
+            data = markov.formatear(self.data, parametros)
         else:
             data = self.data
 
-        resultado = calcular_markov(data)
+        resultado = markov.calcular(data)
 
         return resultado
 
@@ -37,14 +34,12 @@ class Modelo():
                 'ventana' : ventana,
                 'touchpoints' : touchpoints,
             }
-            print("Validados los parametros")
-            data = formatear_shapley(self.data, parametros)
-        
+            data = shapley.formatear(self.data, parametros)        
         else:
             data = self.data
 
-        resultado = calcular_shapley(data)
-        print("RESULTADO: ",resultado)
+        resultado = shapley.calcular(data)
+
         return resultado
 
     def heuristicos(self, ventana=30, touchpoints=8):
@@ -54,9 +49,7 @@ class Modelo():
                 'ventana' : ventana,
                 'touchpoints' : touchpoints,
             }
-            print("Validados los parametros")
-            data = formatear_shapley(self.data, parametros)
-        
+            data = shapley.formatear(self.data, parametros)        
         else:
             data = self.data
 
