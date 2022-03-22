@@ -12,6 +12,9 @@ def calcular(data):
     El input es una lista con una lista de recorridos a la conversion.
     El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
     '''
+    # pasar a lista
+    data = data.values.tolist()
+
     # calcular conversiones totales
     conversiones_totales = sum(list(map(lambda x: x[1], data)))
 

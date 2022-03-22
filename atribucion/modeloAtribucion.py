@@ -40,12 +40,12 @@ class Modelo():
                 'touchpoints' : touchpoints,
                 'conversion' : conversion
             }
-            data = markov.formatear(self.data, parametros)
+            self.markov = markov.formatear(self.data, parametros)
         else:
-            data = self.data
+            self.markov = self.data
 
         # calcular el modelo de markov
-        resultado = markov.calcular(data)
+        resultado = markov.calcular(self.markov)
 
         return resultado
 
@@ -65,12 +65,12 @@ class Modelo():
                 'ventana' : ventana,
                 'touchpoints' : touchpoints,
             }
-            data = shapley.formatear(self.data, parametros)        
+            self.shapley = shapley.formatear(self.data, parametros)        
         else:
-            data = self.data
+            self.shapley = self.data
 
         # calcular el modelo de shapley
-        resultado = shapley.calcular(data.values.tolist())
+        resultado = shapley.calcular(self.shapley)
 
         return resultado
 
@@ -84,18 +84,23 @@ class Modelo():
         :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
         :type touchpoints: int
         """
-        # formatear la data
-        if self.formateada == False:
-            parametros = {
-                'ventana' : ventana,
-                'touchpoints' : touchpoints,
-            }
-            data = shapley.formatear(self.data, parametros)        
+        # si ya se formateo para shapley
+        if hasattr(self, "shapley"):
+            resultado = heuristicos.calcular(self.shapley)
         else:
-            data = self.data
+            # formatear la data
+            if self.formateada == False:
+                parametros = {
+                    'ventana' : ventana,
+                    'touchpoints' : touchpoints,
+                }
+                self.shapley = shapley.formatear(self.data, parametros)        
+            else:
+            # usar la data original
+                self.shapley = self.data
 
         # calcular los modelos heuristicos
-        resultado = heuristicos.calcular(data)
+        resultado = heuristicos.calcular(self.shapley)
 
         return resultado
 
