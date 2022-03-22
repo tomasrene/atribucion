@@ -2,12 +2,12 @@ from . import markov, shapley, heuristicos
 
 class Modelo():
     """
-    Crear un objeto con los datos a partir del cual calcular los distintos modelos.
+    Datos para formatear y calcular modelos.
     
-    :param data: Data con la cual crear los modelos, formateada o no.
+    :param data: data con la cual crear los modelos.
     :type data: dataframe or list
     
-    :param formateada: Si la data tiene una columna de recorridos y otra con la conversion.
+    :param formateada: si la data tiene una columna de recorridos y otra con la conversion.
     :type formateada: bool
     """
     def __init__(self, data, formateada=True):
