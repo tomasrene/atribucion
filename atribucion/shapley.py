@@ -7,11 +7,14 @@ def formatear(data, parametros):
     
     return data
 
-def calcular(data):
+def calcular(input):
     '''
     El input es una lista con una lista de recorridos a la conversion.
     El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
     '''
+    # crear una copia para no alterar la data
+    data = input.copy()
+
     # pasar a lista
     data = data.values.tolist()
 

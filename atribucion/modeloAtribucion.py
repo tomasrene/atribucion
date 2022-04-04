@@ -84,9 +84,7 @@ class Modelo():
 
         """
         # si ya se formateo para shapley
-        if hasattr(self, "shapley"):
-            resultado = heuristicos.calcular(self.shapley)
-        else:
+        if not hasattr(self, "shapley"):
             # formatear la data
             if self.formateada == False:
                 parametros = {
@@ -98,7 +96,7 @@ class Modelo():
             # usar la data original
                 self.shapley = self.data
 
-        # calcular los modelos heuristicos
+        # calcular el modelo first click
         resultado = heuristicos.calcular_first_click(self.shapley)
 
         return resultado
@@ -116,9 +114,7 @@ class Modelo():
 
         """
         # si ya se formateo para shapley
-        if hasattr(self, "shapley"):
-            resultado = heuristicos.calcular(self.shapley)
-        else:
+        if not hasattr(self, "shapley"):
             # formatear la data
             if self.formateada == False:
                 parametros = {
@@ -130,7 +126,7 @@ class Modelo():
             # usar la data original
                 self.shapley = self.data
 
-        # calcular los modelos heuristicos
+        # calcular el modelo last click
         resultado = heuristicos.calcular_last_click(self.shapley)
 
         return resultado
@@ -149,7 +145,7 @@ class Modelo():
         """
         # si ya se formateo para shapley
         if hasattr(self, "shapley"):
-            resultado = heuristicos.calcular(self.shapley)
+            resultado = heuristicos.calcular_linear(self.shapley)
         else:
             # formatear la data
             if self.formateada == False:
@@ -162,7 +158,7 @@ class Modelo():
             # usar la data original
                 self.shapley = self.data
 
-        # calcular los modelos heuristicos
+        # calcular el modelo linear
         resultado = heuristicos.calcular_linear(self.shapley)
 
         return resultado
