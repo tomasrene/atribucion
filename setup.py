@@ -9,8 +9,8 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='atribucion',
-    version='1.6',
-    description='Libreria para correr modelos de atribucion para marketing',
+    version='1.7',
+    description='Libreria para correr modelos de atribucion para marketing digital',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/tomasrene/atribucion",
