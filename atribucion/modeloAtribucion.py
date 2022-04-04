@@ -17,7 +17,7 @@ class Modelo():
 
     def markov(self, orden=1, ventana=30, touchpoints=8, conversion=True):
         """
-        Si no esta formateada, lo hace en base a los parametros. 
+        Si la data no esta formateada, lo hace en base a los parametros. 
         Luego, crea un modelo de Markov.
         
         :param orden: El orden del modelo de Markov, entre 1 y 4.
@@ -48,7 +48,7 @@ class Modelo():
 
     def shapley(self, ventana=30, touchpoints=8):
         """
-        Si no esta formateada, lo hace en base a los parametros. 
+        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
         Luego, crea un modelo de Shapley.
 
         :param ventana: La cantidad de dias que se toman antes de cada conversion.
@@ -71,15 +71,17 @@ class Modelo():
 
         return resultado
 
-    def heuristicos(self, ventana=30, touchpoints=8):
+    def first(self, ventana=30, touchpoints=8):
         """
-        Si no esta formateada, lo hace en base a los parametros. 
-        Luego, crea los modelos heuristicos.
+        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
+        Luego, crea un modelo First Click.
         
         :param ventana: La cantidad de dias que se toman antes de cada conversion.
         :type ventana: int
         :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
         :type touchpoints: int
+        :return resultado: Un dicci
+
         """
         # si ya se formateo para shapley
         if hasattr(self, "shapley"):
@@ -97,7 +99,71 @@ class Modelo():
                 self.shapley = self.data
 
         # calcular los modelos heuristicos
-        resultado = heuristicos.calcular(self.shapley)
+        resultado = heuristicos.calcular_first_click(self.shapley)
+
+        return resultado
+
+    def last(self, ventana=30, touchpoints=8):
+        """
+        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
+        Luego, crea un modelo Last Click.
+        
+        :param ventana: La cantidad de dias que se toman antes de cada conversion.
+        :type ventana: int
+        :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
+        :type touchpoints: int
+        :return resultado: Un dicci
+
+        """
+        # si ya se formateo para shapley
+        if hasattr(self, "shapley"):
+            resultado = heuristicos.calcular(self.shapley)
+        else:
+            # formatear la data
+            if self.formateada == False:
+                parametros = {
+                    'ventana' : ventana,
+                    'touchpoints' : touchpoints,
+                }
+                self.shapley = shapley.formatear(self.data, parametros)        
+            else:
+            # usar la data original
+                self.shapley = self.data
+
+        # calcular los modelos heuristicos
+        resultado = heuristicos.calcular_last_click(self.shapley)
+
+        return resultado
+
+    def linear(self, ventana=30, touchpoints=8):
+        """
+        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
+        Luego, crea un modelo Linear.
+        
+        :param ventana: La cantidad de dias que se toman antes de cada conversion.
+        :type ventana: int
+        :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
+        :type touchpoints: int
+        :return resultado: Un dicci
+
+        """
+        # si ya se formateo para shapley
+        if hasattr(self, "shapley"):
+            resultado = heuristicos.calcular(self.shapley)
+        else:
+            # formatear la data
+            if self.formateada == False:
+                parametros = {
+                    'ventana' : ventana,
+                    'touchpoints' : touchpoints,
+                }
+                self.shapley = shapley.formatear(self.data, parametros)        
+            else:
+            # usar la data original
+                self.shapley = self.data
+
+        # calcular los modelos heuristicos
+        resultado = heuristicos.calcular_linear(self.shapley)
 
         return resultado
 

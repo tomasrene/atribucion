@@ -1,22 +1,5 @@
 from collections import Counter
 
-def calcular(data):
-    """
-    El input es un dataframe con los recorridos de cada usuario y si terminan en conversion.
-    El output es un diccionario con la cantidad de conversiones atribuidas a cada canal por cada modelo.
-    """
-    atribucion = {}
-
-    # chequear que no haya conversiones
-    data = data[data.iloc[:,1]==1]
-
-    # calcular cada uno de los modelos
-    atribucion['first'] = calcular_first_click(data)
-    atribucion['last'] = calcular_last_click(data)
-    atribucion['linear'] = calcular_linear(data)
-
-    return atribucion
-
 def calcular_first_click(data):
     """ Calcula el modelo first click, atribuyendo la conversion al primer canal del recorrido."""
     
