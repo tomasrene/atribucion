@@ -6,3 +6,4 @@ test.py
 atribucion.egg-info/
 build/
 dist/
+update.sh
