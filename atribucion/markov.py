@@ -12,7 +12,7 @@ def formatear(data, parametros):
 
 def calcular(input):
     """
-    El input es un dataframe con los recorridos de cada usuario y si terminan en conversion.
+    El input es un dataframe: recorridos de cada usuario, terminan en conversion o no.
     El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
     """
     # crear una copia para no alterar la data original
@@ -39,7 +39,7 @@ def calcular_matriz_transicion(data):
     Agrega las columnas necesarias para obtener una matriz cuadrada.
     '''
     # agregar (start) al inicio de cada path
-    data[0] = data[0].apply(lambda x:['(start)'] + x)
+    data.iloc[:,0] = data.iloc[:,0].apply(lambda x:['(start)'] + x)
 
     # agregar estado absorbente
     data.apply(lambda x: x[0].append('(conversion)') if x[1]==1 else x[0].append('(null)'), axis=1)
