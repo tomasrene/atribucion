@@ -37,12 +37,12 @@ class Modelo():
                 'touchpoints' : touchpoints,
                 'conversion' : conversion
             }
-            self.markov = markov.formatear(self.data, parametros)
+            self.data_markov = markov.formatear(self.data, parametros)
         else:
-            self.markov = self.data
+            self.data_markov = self.data
 
         # calcular el modelo de markov
-        resultado = markov.calcular(self.markov)
+        resultado = markov.calcular(self.data_markov)
 
         return resultado
 
@@ -62,12 +62,12 @@ class Modelo():
                 'ventana' : ventana,
                 'touchpoints' : touchpoints,
             }
-            self.shapley = shapley.formatear(self.data, parametros)        
+            self.data_shapley = shapley.formatear(self.data, parametros)        
         else:
-            self.shapley = self.data
+            self.data_shapley = self.data
 
         # calcular el modelo de shapley
-        resultado = shapley.calcular(self.shapley)
+        resultado = shapley.calcular(self.data_shapley)
 
         return resultado
 
@@ -84,20 +84,20 @@ class Modelo():
 
         """
         # si ya se formateo para shapley
-        if not hasattr(self, "shapley"):
+        if not hasattr(self, "data_shapley"):
             # formatear la data
             if self.formateada == False:
                 parametros = {
                     'ventana' : ventana,
                     'touchpoints' : touchpoints,
                 }
-                self.shapley = shapley.formatear(self.data, parametros)        
+                self.data_shapley = shapley.formatear(self.data, parametros)        
             else:
             # usar la data original
-                self.shapley = self.data
+                self.data_shapley = self.data
 
         # calcular el modelo first click
-        resultado = heuristicos.calcular_first_click(self.shapley)
+        resultado = heuristicos.calcular_first_click(self.data_shapley)
 
         return resultado
 
@@ -114,20 +114,20 @@ class Modelo():
 
         """
         # si ya se formateo para shapley
-        if not hasattr(self, "shapley"):
+        if not hasattr(self, "data_shapley"):
             # formatear la data
             if self.formateada == False:
                 parametros = {
                     'ventana' : ventana,
                     'touchpoints' : touchpoints,
                 }
-                self.shapley = shapley.formatear(self.data, parametros)        
+                self.data_shapley = shapley.formatear(self.data, parametros)        
             else:
             # usar la data original
-                self.shapley = self.data
+                self.data_shapley = self.data
 
         # calcular el modelo last click
-        resultado = heuristicos.calcular_last_click(self.shapley)
+        resultado = heuristicos.calcular_last_click(self.data_shapley)
 
         return resultado
 
@@ -144,8 +144,8 @@ class Modelo():
 
         """
         # si ya se formateo para shapley
-        if hasattr(self, "shapley"):
-            resultado = heuristicos.calcular_linear(self.shapley)
+        if hasattr(self, "data_shapley"):
+            resultado = heuristicos.calcular_linear(self.data_shapley)
         else:
             # formatear la data
             if self.formateada == False:
@@ -153,13 +153,13 @@ class Modelo():
                     'ventana' : ventana,
                     'touchpoints' : touchpoints,
                 }
-                self.shapley = shapley.formatear(self.data, parametros)        
+                self.data_shapley = shapley.formatear(self.data, parametros)        
             else:
             # usar la data original
-                self.shapley = self.data
+                self.data_shapley = self.data
 
         # calcular el modelo linear
-        resultado = heuristicos.calcular_linear(self.shapley)
+        resultado = heuristicos.calcular_linear(self.data_shapley)
 
         return resultado
 
