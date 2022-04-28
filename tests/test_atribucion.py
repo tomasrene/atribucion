@@ -9,7 +9,7 @@ def main():
     modelo = atribucion.Modelo(data, True)
     resultado_markov = modelo.markov()
     resultado_shapley = modelo.shapley()
-    return resultado_markov
+    return resultado_markov, resultado_shapley
 
 if __name__ == "__main__":
     main()
