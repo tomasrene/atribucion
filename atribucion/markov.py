@@ -69,29 +69,29 @@ def calcular_matriz_transicion(data):
 
     return matriz
 
-def calcular_markov(datad):
+def calcular_markov(data):
     '''
     Toma una matriz de transiciones entre los canales (con null, start y conversion).
     Devuelve la tasa de conversion partienda del estado start.
     '''
     # armar matriz de convergencia (columnas finales)
-    removal_to_conv = datad[['(null)','(conversion)']]
+    matriz_convergencia = data[['(null)','(conversion)']]
     
     # armar matriz de canales (filas de canales)
-    removal_to_non_conv = datad.drop(['(conversion)','(null)'],axis=1)
+    matriz_canales = data.drop(['(conversion)','(null)'],axis=1)
     
     # calcular la inversa de (I - canales)
-    removal_inv_diff = np.linalg.inv(np.identity(len(removal_to_non_conv.columns)) - np.asarray(removal_to_non_conv))
+    matriz_inversa = np.linalg.inv(np.identity(len(matriz_canales.columns)) - np.asarray(matriz_canales))
     
     # calcular producto matricial de la inversa y la de convergencia
-    removal_dot_prod = np.dot(removal_inv_diff, np.asarray(removal_to_conv))
-        
-    # devolver la probabilidad de conversion del inicio en start
-    cvr = pd.DataFrame(removal_dot_prod,index=removal_to_conv.index)[[1]].loc['(start)'].values[0]
+    matriz_probabilidades = np.dot(matriz_inversa, np.asarray(matriz_convergencia))
     
+    # devolver la probabilidad de conversion del inicio en start
+    cvr = pd.DataFrame(matriz_probabilidades,index=matriz_convergencia.index)[[1]].loc['(start)'].values[0]
+
     return cvr
 
-def calcular_removal_effect(datad):
+def calcular_removal_effect(data):
     '''
     Toma una matriz de transiciones entre los canales (con null, start y conversion) y calcula el removal effect
     de cada uno de los canales.
@@ -104,34 +104,34 @@ def calcular_removal_effect(datad):
     
     '''
     # calcular conversion general y guardar
-    cr_general = calcular_markov(datad)
-    
+    cr_general = calcular_markov(data)
+
     # crear un diccionario para almacenar removal effect de cada canal
     removal_effect = {}
     
     # iterar sobre canales validos
-    for canal in datad.columns:
+    for canal in data.columns:
         if canal not in ['(start)','(conversion)','(null)']:
-            
+
             # borrar linea y columna del canal
-            matriz_canal = datad.drop(canal, axis=1).drop(canal, axis=0)
+            matriz_canal = data.drop(canal, axis=1).drop(canal, axis=0)
             
             # reasignar probabilidad a nulo
             for column in matriz_canal.columns:
                 if column not in ['(conversion)','(null)']:
                     faltante = float(1) - np.sum(list(matriz_canal.loc[column]))
                     if faltante != 0:
-                        matriz_canal.loc[column]['(null)'] = faltante
-            
+                        matriz_canal.loc[column]['(null)'] += faltante
+
             # calcular la conversion
             cr_canal = calcular_markov(matriz_canal)
-           
+
             # calcular la variacion de la conversion
-            removal_effect_canal = 1 - cr_canal / cr_general
-            
+            removal_effect_canal = 1 - (cr_canal / cr_general)
+
             # guardar en diccionario
-            removal_effect[canal] = removal_effect_canal
-    
+            removal_effect[canal] = max(removal_effect_canal,0)
+
     # calcular valor total
     suma = np.sum(list(removal_effect.values()))
     
