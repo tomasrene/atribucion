@@ -1,9 +1,8 @@
-TODO.txt
 venv/
-utils/__pycache__/
-__pycache__/
-test.py
+**__pycache__**
 atribucion.egg-info/
 build/
 dist/
-update.sh
+*.sh
+TODO.txt
+test*
