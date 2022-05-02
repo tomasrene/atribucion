@@ -10,7 +10,7 @@ def formatear(data, parametros):
     
     return data
 
-def calcular(input):
+def calcular(input, orden):
     """
     El input es un dataframe: recorridos de cada usuario, terminan en conversion o no.
     El output es la cantidad de conversiones atribuidas a cada canal en los recorridos.
@@ -18,15 +18,27 @@ def calcular(input):
     # crear una copia para no alterar la data original
     data = input.copy()
 
+    # pasar a lista para hacer mas eficiente
+    lista = data.values.tolist()
+
     # calcular conversiones totales
-    conversiones_totales = data.iloc[:,1].sum()
+    conversiones_totales = sum([camino[1] for camino in lista])
 
     # obtener la matriz de transicion de los canales
-    matriz = calcular_matriz_transicion(data)
+    matriz = calcular_matriz_transicion(lista)
 
     # obtener el diciconario del removal effect de cada canal
     proporcion = calcular_removal_effect(matriz)
-    
+
+    # si el orden es mayor a 1, distribuir el resultado
+    if orden>1:
+        distribuido = {}
+        # distribuir linealmente en cada combinacion de canales
+        for k,v in proporcion.items():
+            for canal in (k.split(">")):
+                distribuido[canal] = distribuido.get(canal,0) + v/len(k.split(">"))
+                proporcion = distribuido
+
     # aplicar conversiones a proporcion
     atribucion = {k:round(v*conversiones_totales,2) for k,v in proporcion.items()}
 
@@ -38,23 +50,14 @@ def calcular_matriz_transicion(data):
     Calcula la matriz como la probabilidad de transicion entre dos estados.
     Agrega las columnas necesarias para obtener una matriz cuadrada.
     '''
-    # agregar (start) al inicio de cada path
-    data.iloc[:,0] = data.iloc[:,0].apply(lambda x:['(start)'] + x)
+    # agregar start y conversion o null segun corresponda
+    recorridos = [['(start)'] + camino[0] + ['(null)'] if camino[1]==0 else ['(start)'] + camino[0] + ['(conversion)'] for camino in data]
 
-    # agregar estado absorbente
-    data.apply(lambda x: x[0].append('(conversion)') if x[1]==1 else x[0].append('(null)'), axis=1)
-
-    # descartar columna de conversion
-    recorridos = data.iloc[:,0].copy()
-
-    # agrupar de dos en dos los canales
-    recorridos = recorridos.apply(lambda x: list(zip(x[:],x[1:])))
-
-    # extender los pares de canales en una lista
-    recorridos = recorridos.explode().tolist()
+    # obtener las transiciones entre pares de estados
+    transiciones = [list(transicion) for camino in recorridos for transicion in zip(camino[:],camino[1:])]
 
     # dar formato de tabla
-    df = pd.DataFrame(recorridos,columns=['(start)','(end)'])
+    df = pd.DataFrame(transiciones,columns=['(start)','(end)'])
 
     # crear matriz de transicion
     matriz = pd.crosstab(index=df['(start)'], columns=df['(end)'], normalize = 'index', dropna = False)

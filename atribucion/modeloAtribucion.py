@@ -42,7 +42,7 @@ class Modelo():
             self.data_markov = self.data
 
         # calcular el modelo de markov
-        resultado = markov.calcular(self.data_markov)
+        resultado = markov.calcular(self.data_markov, orden)
 
         return resultado
 
