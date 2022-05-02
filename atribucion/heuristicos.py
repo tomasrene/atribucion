@@ -1,5 +1,4 @@
 from collections import Counter
-from timeit import timeit
 
 def calcular_first_click(data):
     """ Calcula el modelo first click, atribuyendo la conversion al primer canal del recorrido."""
