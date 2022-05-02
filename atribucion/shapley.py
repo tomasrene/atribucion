@@ -17,12 +17,15 @@ def calcular(input):
 
     # pasar a lista
     data = data.values.tolist()
+    
+    # chequear si estan filtrados los caminos sin conversion y canales duplicados
+    data = [[list(sorted(set(recorrido[0]))), recorrido[1]] for recorrido in data if recorrido[1]!=0]
 
     # calcular conversiones totales
-    conversiones_totales = sum(list(map(lambda x: x[1], data)))
+    conversiones_totales = sum([recorrido[1] for recorrido in data])
 
     # armar lista de canales unicos y sus combinaciones
-    canales_unicos = sorted(set(canal for recorrido in data for canal in recorrido[0] if recorrido[1]==1))
+    canales_unicos = sorted(set([canal for recorrido in data for canal in recorrido[0]]))
     canales_combinados = combinar(canales_unicos)
 
     # crear diccionario con todas las subcoaliciones
@@ -32,7 +35,7 @@ def calcular(input):
     gran_coalicion = list(permutations(canales_unicos))
 
     # obtener los canales unicos de cada recorrido ordenados
-    recorridos = [tuple(sorted(recorrido[0])) for recorrido in data]
+    recorridos = [tuple(recorrido[0]) for recorrido in data]
 
     # contar ocurrencias de cada sub coalicion
     sub_coaliciones.update(Counter(recorridos))
@@ -52,14 +55,14 @@ def combinar(lista):
     # calcular el numero de elementos en la lista
     numero_de_elementos = len(lista)
     
-    # crear un rango de 1 al numero de elementos
+    # crear un rango inclusivo de 1 al numero de elementos
     rango = range(1,numero_de_elementos+1)
     
     # hacer la combinatoria de los elementos para cada valor del rango
     combinacion = [list(combinations(lista,i)) for i in rango]
     
     # desanidar las listas
-    resultado = [tupla for sublist in combinacion for tupla in sublist]
+    resultado = [tupla for sublista in combinacion for tupla in sublista]
     
     return resultado
 
