@@ -102,7 +102,8 @@ class Modelo():
             return resultado
         else:
             if self.formateada == True:
-                heuristicos.calcular_linear(self.data)
+                resultado = heuristicos.calcular_first_click(self.data)
+                return resultado
             else:
                 raise Exception("Hace falta formatear los datos")
     
@@ -119,7 +120,8 @@ class Modelo():
             return resultado
         else:
             if self.formateada == True:
-                heuristicos.calcular_linear(self.data)
+                resultado = heuristicos.calcular_last_click(self.data)
+                return resultado
             else:
                 raise Exception("Hace falta formatear los datos")
 
@@ -136,7 +138,8 @@ class Modelo():
             return resultado
         else:
             if self.formateada == True:
-                heuristicos.calcular_linear(self.data)
+                resultado = heuristicos.calcular_linear(self.data)
+                return resultado
             else:
                 raise Exception("Hace falta formatear los datos")
 
