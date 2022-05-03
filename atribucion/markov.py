@@ -1,15 +1,6 @@
 import pandas as pd
 import numpy as np
 
-def formatear(data, parametros):
-
-    for k,v in parametros.items():
-        print("Parametros: ",k,v)
-    
-    print("Proceso de formatear Markov")
-    
-    return data
-
 def calcular(input, orden):
     """
     El input es un dataframe: recorridos de cada usuario, terminan en conversion o no.
