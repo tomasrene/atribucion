@@ -30,11 +30,9 @@ def calcular_linear(data):
     for camino in data.values:
         # si el camino termina en conversion
         if camino[1] != 0:
-            # quedarse solo con los canales unicos
-            canales_unicos = list(set(camino[0]))
             # distribuir linealmente la conversion
-            for canal in canales_unicos:
-                results[canal] = results.get(canal,0) + camino[1]/len(canales_unicos)
+            for canal in camino[0]:
+                results[canal] = results.get(canal,0) + camino[1]/len(camino[0])
     
     results = {k:round(v,2) for k,v in results.items()}
 
