@@ -6,7 +6,7 @@ class Modelo():
     
     :param data: data con la cual crear los modelos.
     :type data: dataframe or list
-    :param formateada: si la data tiene una columna de recorridos y otra con la conversion.
+    :param formateada: si la data tiene una columna con una lista o array de recorridos y otra con la conversion.
     :type formateada: bool
     """
     def __init__(self, data, formateada=True):
@@ -15,153 +15,130 @@ class Modelo():
 
         return None
 
-    def markov(self, orden=1, ventana=30, touchpoints=8, conversion=True):
+    def formatear_markov(self, ventana, touchpoints, conversion):
         """
-        Si la data no esta formateada, lo hace en base a los parametros. 
-        Luego, crea un modelo de Markov.
-        
-        :param orden: El orden del modelo de Markov, entre 1 y 4.
-        :type orden: int
+        Formatea la data para Markov: recorridos con y sin conversion, canales duplicados.
+
         :param ventana: La cantidad de dias que se toman antes de cada conversion.
         :type ventana: int
         :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
         :type touchpoints: int
         :param conversion: Si se corta el camino con cada nueva conversion.
         :type conversion: bool
+
         """
-        # formatear la data
-        if self.formateada == False:
-            parametros = {
-                'orden' : orden,
-                'ventana' : ventana,
-                'touchpoints' : touchpoints,
-                'conversion' : conversion
-            }
-            self.data_markov = markov.formatear(self.data, parametros)
-        else:
+        print("Proceso de formateo")
+
+        self.data_markov = self.data
+        
+        return
+
+    def markov(self, orden=1):
+        """
+        Si la data esta formateada o se formateo con la funcion, calcula el modelo de Markov.
+        
+        :param orden: El orden del modelo de Markov, entre 1 y 4.
+        :type orden: int
+        """
+        # si esta formateada, asignarla
+        if self.formateada == True:
             self.data_markov = self.data
+
+        # si no hay data para markov, arrojar error
+        try:
+            self.data_markov
+        except:
+            print("La data no está formateada. Usar la función formatear_markov.")
 
         # calcular el modelo de markov
         resultado = markov.calcular(self.data_markov, orden)
 
         return resultado
 
-    def shapley(self, ventana=30, touchpoints=8):
+    def formatear_shapley(self, ventana=30, touchpoints=8):
         """
-        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
-        Luego, crea un modelo de Shapley.
+        Formatea la data para Shapley: recorridos con conversion, sin canales duplicados.
 
         :param ventana: La cantidad de dias que se toman antes de cada conversion.
         :type ventana: int
         :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
-        :type touchpoints: int
+        :type touchpoints: int        
         """
-        # formatear la data
-        if self.formateada == False:
-            parametros = {
-                'ventana' : ventana,
-                'touchpoints' : touchpoints,
-            }
-            self.data_shapley = shapley.formatear(self.data, parametros)        
-        else:
+        print("Proceso de formateo")
+
+        self.data_shapley = self.data
+
+        return
+
+    def shapley(self):
+        """
+        Si la data esta formateada o se formateo con la funcion, calcula el modelo de Shapley.
+        """
+        # si esta formateada, asignarla
+        if self.formateada == True:
             self.data_shapley = self.data
 
-        # calcular el modelo de shapley
+        # si no hay data para markov, arrojar error
+        try:
+            self.data_shapley
+        except:
+            print("La data no está formateada. Usar la función formatear_shapley.")
+
+        # calcular el modelo de markov
         resultado = shapley.calcular(self.data_shapley)
 
         return resultado
 
-    def first(self, ventana=30, touchpoints=8):
+    def first(self):
         """
-        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
-        Luego, crea un modelo First Click.
-        
-        :param ventana: La cantidad de dias que se toman antes de cada conversion.
-        :type ventana: int
-        :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
-        :type touchpoints: int
-        :return resultado: Un dicci
-
+        Usa la data ya formateada para Markov o Shapley y crea un modelo First Click.
         """
-        # si ya se formateo para shapley
-        if not hasattr(self, "data_shapley"):
-            # formatear la data
-            if self.formateada == False:
-                parametros = {
-                    'ventana' : ventana,
-                    'touchpoints' : touchpoints,
-                }
-                self.data_shapley = shapley.formatear(self.data, parametros)        
+        # usar la data ya formateada para Markov o Shapley
+        if hasattr(self, "data_shapley"):
+            resultado = heuristicos.calcular_first_click(self.data_shapley)
+            return resultado
+        elif hasattr(self, "data_markov"):
+            resultado = heuristicos.calcular_first_click(self.data_markov)
+            return resultado
+        else:
+            if self.formateada == True:
+                raise Exception("Primero correr Markov o Shapley")
             else:
-            # usar la data original
-                self.data_shapley = self.data
-
-        # calcular el modelo first click
-        resultado = heuristicos.calcular_first_click(self.data_shapley)
-
-        return resultado
-
-    def last(self, ventana=30, touchpoints=8):
+                raise Exception("Hace falta formatear los datos")
+    
+    def last(self):
         """
-        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
-        Luego, crea un modelo Last Click.
-        
-        :param ventana: La cantidad de dias que se toman antes de cada conversion.
-        :type ventana: int
-        :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
-        :type touchpoints: int
-        :return resultado: Un dicci
-
+        Usa la data ya formateada para Markov o Shapley y crea un modelo Last Click.
         """
-        # si ya se formateo para shapley
-        if not hasattr(self, "data_shapley"):
-            # formatear la data
-            if self.formateada == False:
-                parametros = {
-                    'ventana' : ventana,
-                    'touchpoints' : touchpoints,
-                }
-                self.data_shapley = shapley.formatear(self.data, parametros)        
+        # usar la data ya formateada para Markov o Shapley
+        if hasattr(self, "data_shapley"):
+            resultado = heuristicos.calcular_last_click(self.data_shapley)
+            return resultado
+        elif hasattr(self, "data_markov"):
+            resultado = heuristicos.calcular_last_click(self.data_markov)
+            return resultado
+        else:
+            if self.formateada == True:
+                raise Exception("Primero correr Markov o Shapley")
             else:
-            # usar la data original
-                self.data_shapley = self.data
+                raise Exception("Hace falta formatear los datos")
 
-        # calcular el modelo last click
-        resultado = heuristicos.calcular_last_click(self.data_shapley)
-
-        return resultado
-
-    def linear(self, ventana=30, touchpoints=8):
+    def linear(self):
         """
-        Si no esta formateada, busca si ya hay data formateada y sino lo hace en base a los parametros. 
-        Luego, crea un modelo Linear.
-        
-        :param ventana: La cantidad de dias que se toman antes de cada conversion.
-        :type ventana: int
-        :param touchpoints: La cantidad de canales maxima que se toma por cada conversion.
-        :type touchpoints: int
-        :return resultado: Un dicci
-
+        Usa la data ya formateada para Markov o Shapley y crea un modelo Linear.
         """
-        # si ya se formateo para shapley
+        # usar la data ya formateada para Markov o Shapley
         if hasattr(self, "data_shapley"):
             resultado = heuristicos.calcular_linear(self.data_shapley)
+            return resultado
+        elif hasattr(self, "data_markov"):
+            resultado = heuristicos.calcular_linear(self.data_markov)
+            return resultado
         else:
-            # formatear la data
-            if self.formateada == False:
-                parametros = {
-                    'ventana' : ventana,
-                    'touchpoints' : touchpoints,
-                }
-                self.data_shapley = shapley.formatear(self.data, parametros)        
+            if self.formateada == True:
+                raise Exception("Primero correr Markov o Shapley")
             else:
-            # usar la data original
-                self.data_shapley = self.data
-
-        # calcular el modelo linear
-        resultado = heuristicos.calcular_linear(self.data_shapley)
-
-        return resultado
+                raise Exception("Hace falta formatear los datos")
 
     def comparacion(self):
         pass
