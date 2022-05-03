@@ -1,12 +1,6 @@
 from itertools import combinations, permutations
 from collections import Counter
 
-def formatear(data, parametros):
-    for k,v in parametros.items():
-        pass
-    
-    return data
-
 def calcular(input):
     '''
     El input es una lista con una lista de recorridos a la conversion.
