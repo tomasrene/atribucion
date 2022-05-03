@@ -102,7 +102,7 @@ class Modelo():
             return resultado
         else:
             if self.formateada == True:
-                raise Exception("Primero correr Markov o Shapley")
+                heuristicos.calcular_linear(self.data)
             else:
                 raise Exception("Hace falta formatear los datos")
     
@@ -119,7 +119,7 @@ class Modelo():
             return resultado
         else:
             if self.formateada == True:
-                raise Exception("Primero correr Markov o Shapley")
+                heuristicos.calcular_linear(self.data)
             else:
                 raise Exception("Hace falta formatear los datos")
 
@@ -136,7 +136,7 @@ class Modelo():
             return resultado
         else:
             if self.formateada == True:
-                raise Exception("Primero correr Markov o Shapley")
+                heuristicos.calcular_linear(self.data)
             else:
                 raise Exception("Hace falta formatear los datos")
 
