@@ -132,7 +132,7 @@ def calcular_removal_effect(data):
             # calcular la variacion de la conversion
             removal_effect_canal = 1 - (cr_canal / cr_general)
 
-            # guardar en diccionario
+            # maximizar con 0 y guardar en diccionario
             removal_effect[canal] = max(removal_effect_canal,0)
 
     # calcular valor total
