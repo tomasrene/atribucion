@@ -48,7 +48,7 @@ class Modelo():
         try:
             self.data_markov
         except:
-            print("La data no está formateada. Usar la función formatear_markov.")
+            print("La data no está formateada. Usar la función formatear_markov o pasar data ya formateada.")
 
         # calcular el modelo de markov
         resultado = markov.calcular(self.data_markov, orden)
@@ -82,7 +82,7 @@ class Modelo():
         try:
             self.data_shapley
         except:
-            print("La data no está formateada. Usar la función formatear_shapley.")
+            print("La data no está formateada. Usar la función formatear_shapley o pasar data ya formateada.")
 
         # calcular el modelo de markov
         resultado = shapley.calcular(self.data_shapley)
@@ -100,6 +100,7 @@ class Modelo():
         elif hasattr(self, "data_markov"):
             resultado = heuristicos.calcular_first_click(self.data_markov)
             return resultado
+        # o la data ya formateada
         else:
             if self.formateada == True:
                 resultado = heuristicos.calcular_first_click(self.data)
@@ -118,6 +119,7 @@ class Modelo():
         elif hasattr(self, "data_markov"):
             resultado = heuristicos.calcular_last_click(self.data_markov)
             return resultado
+        # o la data ya formateada
         else:
             if self.formateada == True:
                 resultado = heuristicos.calcular_last_click(self.data)
