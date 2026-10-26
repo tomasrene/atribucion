@@ -1,3 +1,11 @@
+# Atribución · trabajo histórico
+
+Modelos de atribución de marketing: heurísticos, Markov y Shapley. Se conserva la implementación de esta etapa; no se presenta como una biblioteca actualmente mantenida. El formateo de datos crudos está incompleto y el ejemplo de pruebas no valida toda la API.
+
+[Exploraciones actuales](https://github.com/tomasrene/exploraciones)
+
+## Documentación original
+
 # MODELOS DE ATRIBUCION
 Esta es una librería creada para el trabajo con modelos de atribución sobre datos de marketing digital.
 Con esta librería se podrán crear modelos heurísticos (First click, Last click, Linear) o modelos data-driven (Markov, Shapley).
